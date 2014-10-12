@@ -14,14 +14,12 @@ Function CompareTo ($adir, $bdir)
   [int]$amajor = $Matches[1]
   [int]$aminor = $Matches[2]
   [int]$apatch = $Matches[3]
-  [int]$apatch = $Matches[3]
   $aprerelease = $Matches[4]
   #Write-Host $a $amajor + $aminor + $apatch + $aprerelease ($aprerelease -eq $null)
 
   $dummy = $b -match $semverregex
   [int]$bmajor = $Matches[1]
   [int]$bminor = $Matches[2]
-  [int]$bpatch = $Matches[3]
   [int]$bpatch = $Matches[3]
   $bprerelease = $Matches[4]
   #Write-Host $b $bmajor + $bminor + $bpatch + $bprerelease ($bprerelease -eq $null)
