@@ -6,6 +6,7 @@ mkdir 51.0.0+dev
 mkdir 51.0.0-alpha
 mkdir 51.0.0-alpha.1
 mkdir 51.0.0-alpha.2
+mkdir 51.0.0-alpha.2.irrelevant
 mkdir 51.0.0-alpha.11
 mkdir 51.0.0-alpha.beta
 mkdir 51.0.0-alpha.0+soft
