@@ -1,5 +1,6 @@
 param (
-  [switch] $PreRelease
+  [switch] $PreReleaseOnly,
+  [switch] $IncludePreRelease
 )
 
 Function CompareTo ($adir, $bdir) 
@@ -94,8 +95,10 @@ Function Sort-Dirs
   return $theArray  
 }
 
-if ($PreRelease) {
+if ($PreReleaseOnly) {
   $dirRegex = "^[0-9]+\.[0-9]+\.[0-9]+-"
+} elseif ($IncludePreRelease) {
+  $dirRegex = "^[0-9]+\.[0-9]+\.[0-9]+"
 } else {
   $dirRegex = "^[0-9]+\.[0-9]+\.[0-9]+$"
 }
