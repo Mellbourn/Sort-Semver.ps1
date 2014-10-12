@@ -1,10 +1,10 @@
-#param (
-#  [switch] $PreRelease
-#)
+param (
+  [switch] $PreRelease
+)
 $suffix = ""
-#if($PreRelease) {
-#  $suffix = "-"
-#}
+if($PreRelease) {
+  $suffix = "-"
+}
 
 Function CompareTo ($adir, $bdir) 
 {
@@ -12,28 +12,29 @@ Function CompareTo ($adir, $bdir)
   $b = $bdir.Name
 
   $semverregex = "^([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$"
-  $a -match $semverregex
+  $dummy = $a -match $semverregex
   [int]$amajor = $Matches[1]
   [int]$aminor = $Matches[2]
   [int]$apatch = $Matches[3]
   [int]$apatch = $Matches[3]
   $aprerelease = $Matches[4]
-  Write-Host $a $amajor + $aminor + $apatch + $aprerelease
+  Write-Host $a $amajor + $aminor + $apatch + $aprerelease ($aprerelease -eq $null)
 
-  $b -match $semverregex
+  $dummy = $b -match $semverregex
   [int]$bmajor = $Matches[1]
   [int]$bminor = $Matches[2]
   [int]$bpatch = $Matches[3]
   [int]$bpatch = $Matches[3]
   $bprerelease = $Matches[4]
+  Write-Host $b $bmajor + $bminor + $bpatch + $bprerelease ($bprerelease -eq $null)
 
   if( $a -lt $b) 
   {
     return -1
-  } elseif ($a -eq $b) {
-    return 0
-  } else {
+  } elseif ($a -gt $b) {
     return 1
+  } else {
+    return 0
   }
 }
 
