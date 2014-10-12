@@ -53,14 +53,31 @@ Function CompareTo ($adir, $bdir)
               return -1
             }
 
-            if ( $aprerelease -lt $bprerelease ) {
+            $aparts = $aprerelease.Split('.')
+            $bparts = $bprerelease.Split('.')
+            $minparts = [math]::min($aparts.Count, $bparts.Count)
+
+            for($i = 0; $i -lt $minparts; $i++) {
+              $ap = $aparts[$i]
+              $bp = $bparts[$i]
+              if(($ap -match "^[0-9]+$") -and ($bp -match "^[0-9]+$")) {
+                $ap = [int]$ap
+                $bp = [int]$bp
+              }
+
+              if ( $ap -lt $bp ) {
+                return -1
+              } elseif ( $ap -gt $bp ) {
+                return 1
+              }
+            }
+            if($aparts.Count -lt $bparts.Count) {
               return -1
-            } elseif ( $aprerelease -gt $bprerelease ) {
+            } elseif($aparts.Count -gt $bparts.Count) {
               return 1
             } else {
               return 0
             }
-
 
         }
     }
@@ -100,7 +117,7 @@ if ($PreReleaseOnly) {
 } elseif ($IncludePreRelease) {
   $dirRegex = "^[0-9]+\.[0-9]+\.[0-9]+"
 } else {
-  $dirRegex = "^[0-9]+\.[0-9]+\.[0-9]+$"
+  $dirRegex = "^[0-9]+\.[0-9]+\.[0-9]+(\+.*)?$"
 }
 
 $versionDirs = Get-ChildItem -Recurse | Where-Object { $_.PSIsContainer } | Where-Object { $_.Name -match ($dirRegex) } | Sort-Object -Property LastWriteTime

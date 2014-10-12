@@ -2,7 +2,15 @@ mkdir 1.0
 mkdir 4.0.3
 mkdir 6.0.0
 mkdir 51.0.0
+mkdir 51.0.0+dev
+mkdir 51.0.0-alpha
+mkdir 51.0.0-alpha.1
+mkdir 51.0.0-alpha.2
+mkdir 51.0.0-alpha.11
+mkdir 51.0.0-alpha.beta
 mkdir 51.0.0-alpha.0+soft
+mkdir 51.0.0-alpha.0+continuous
+mkdir 51.0.0-alpha.0+nightly
 mkdir 51.0.0-beta.2+soft
 mkdir 52.0.4
 mkdir 52.0.11
