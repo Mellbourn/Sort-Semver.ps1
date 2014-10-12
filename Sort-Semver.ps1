@@ -28,13 +28,45 @@ Function CompareTo ($adir, $bdir)
   $bprerelease = $Matches[4]
   Write-Host $b $bmajor + $bminor + $bpatch + $bprerelease ($bprerelease -eq $null)
 
-  if( $a -lt $b) 
+  if( $amajor -lt $bmajor) 
   {
     return -1
-  } elseif ($a -gt $b) {
+  } elseif ($amajor -gt $bmajor) {
     return 1
   } else {
-    return 0
+    if ( $aminor -lt $bminor ) {
+      return -1
+    } elseif ( $aminor -gt $bminor ) {
+      return 1
+    } else {
+
+        if ( $apatch -lt $bpatch ) {
+          return -1
+        } elseif ( $apatch -gt $bpatch ) {
+          return 1
+        } else {
+
+            if( ($aprerelease -eq $null) -and ($bprerelease -eq $null)) {
+              return 0
+            }
+            if($aprerelease -eq $null) {
+              return 1
+            }
+            if($bprerelease -eq $null) {
+              return -1
+            }
+
+            if ( $aprerelease -lt $bprerelease ) {
+              return -1
+            } elseif ( $aprerelease -gt $bprerelease ) {
+              return 1
+            } else {
+              return 0
+            }
+
+
+        }
+    }
   }
 }
 
@@ -73,3 +105,4 @@ Write-Host 'ver' $versionDirs
 $sortedDirs = Sort-Dirs $versionDirs
 
 Write-Host 'sor' $sortedDirs
+
