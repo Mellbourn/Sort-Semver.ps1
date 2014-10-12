@@ -1,4 +1,4 @@
-mkdir 1.0
+mkdir 1.0.0
 mkdir 4.0.3
 mkdir 6.0.0
 mkdir 51.0.0
@@ -17,3 +17,6 @@ mkdir 52.0.11
 mkdir 52.0.256
 mkdir 52.1.3
 mkdir notincluded
+mkdir v51.2.3
+mkdir 52.a.4
+mkdir 1.0

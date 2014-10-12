@@ -1,6 +1,7 @@
 param (
   [switch] $PreReleaseOnly,
-  [switch] $IncludePreRelease
+  [switch] $IncludePreRelease,
+  [string] $majorVersion
 )
 
 Function CompareTo ($adir, $bdir) 
@@ -112,12 +113,18 @@ Function Sort-Dirs
   return $theArray  
 }
 
+if($majorVersion -eq "") {
+  $majorVersion = "[0-9]+"
+}
+
+$prefixRegex = ("^" + $majorVersion + "\.[0-9]+\.[0-9]+")
+
 if ($PreReleaseOnly) {
-  $dirRegex = "^[0-9]+\.[0-9]+\.[0-9]+-"
+  $dirRegex = ($prefixRegex + "-")
 } elseif ($IncludePreRelease) {
-  $dirRegex = "^[0-9]+\.[0-9]+\.[0-9]+"
+  $dirRegex = $prefixRegex
 } else {
-  $dirRegex = "^[0-9]+\.[0-9]+\.[0-9]+(\+.*)?$"
+  $dirRegex = ($prefixRegex + "(\+.*)?$")
 }
 
 $versionDirs = Get-ChildItem -Recurse | Where-Object { $_.PSIsContainer } | Where-Object { $_.Name -match ($dirRegex) } | Sort-Object -Property LastWriteTime
