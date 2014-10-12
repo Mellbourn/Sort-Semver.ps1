@@ -1,10 +1,6 @@
 param (
   [switch] $PreRelease
 )
-$suffix = ""
-if($PreRelease) {
-  $suffix = "-"
-}
 
 Function CompareTo ($adir, $bdir) 
 {
@@ -18,7 +14,7 @@ Function CompareTo ($adir, $bdir)
   [int]$apatch = $Matches[3]
   [int]$apatch = $Matches[3]
   $aprerelease = $Matches[4]
-  Write-Host $a $amajor + $aminor + $apatch + $aprerelease ($aprerelease -eq $null)
+  #Write-Host $a $amajor + $aminor + $apatch + $aprerelease ($aprerelease -eq $null)
 
   $dummy = $b -match $semverregex
   [int]$bmajor = $Matches[1]
@@ -26,7 +22,7 @@ Function CompareTo ($adir, $bdir)
   [int]$bpatch = $Matches[3]
   [int]$bpatch = $Matches[3]
   $bprerelease = $Matches[4]
-  Write-Host $b $bmajor + $bminor + $bpatch + $bprerelease ($bprerelease -eq $null)
+  #Write-Host $b $bmajor + $bminor + $bpatch + $bprerelease ($bprerelease -eq $null)
 
   if( $amajor -lt $bmajor) 
   {
@@ -98,11 +94,19 @@ Function Sort-Dirs
   return $theArray  
 }
 
-$versionDirs = Get-ChildItem -Recurse | Where-Object { $_.PSIsContainer } | Where-Object { $_.Name -match ("^[0-9]+\.[0-9]+\.[0-9]+" + $suffix) } | Sort-Object -Property LastWriteTime
+if ($PreRelease) {
+  $dirRegex = "^[0-9]+\.[0-9]+\.[0-9]+-"
+} else {
+  $dirRegex = "^[0-9]+\.[0-9]+\.[0-9]+$"
+}
 
-Write-Host 'ver' $versionDirs
+$versionDirs = Get-ChildItem -Recurse | Where-Object { $_.PSIsContainer } | Where-Object { $_.Name -match ($dirRegex) } | Sort-Object -Property LastWriteTime
+
+#Write-Host 'ver' $versionDirs
  
 $sortedDirs = Sort-Dirs $versionDirs
 
-Write-Host 'sor' $sortedDirs
+Write-Host $sortedDirs
 
+$latest = $sortedDirs[$sortedDirs.Count - 1]
+Write-Host $latest
